@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # 將輸入 影像或影片 調整至與 模型 相同大小 (前處理)
     input_tensor = preprocess(image, model_width, model_height)
 
-    # 將 reshape 過後的輸入檔輸入至模型當中進行推論(辨識)
+    # 將 reshape 過後的影像 輸入至模型當中進行推論(辨識)
     outputs = Onnx_model.run(None, {Onnx_model.get_inputs()[0].name: input_tensor})
     output = np.squeeze(outputs[0])
 
