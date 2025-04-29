@@ -1,7 +1,7 @@
 # ⦿ Object-Detect-With-YOLO-ONNX-And-TFLITE-In-V10、v11
 
 * Title : Object-Detect-With-YOLO-ONNX-And-TFLITE-In-V10、v11
-* Time : 2025/04/29
+* Update : 2025/04/29
 * Author : 林建宏 (Lin, Chien-Hung)
 
 ## ⦿ 題目 (topic)
