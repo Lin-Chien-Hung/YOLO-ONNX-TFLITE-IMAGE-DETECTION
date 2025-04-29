@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 
-# 影像前處理 (原始影像, 原始影像(寬), 原始影像(高), 模型(寬), 模型(高))
-def preprocess(bgr_image, src_w, src_h, dst_w, dst_h):
+# 影像前處理 (原始影像, 模型(寬), 模型(高))
+def preprocess(bgr_image, dst_w, dst_h):
     
     # BGR 轉 RGB
     image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     _, _, model_height, model_width = Onnx_model.get_inputs()[0].shape
     
     # 將輸入 影像或影片 調整至與 模型 相同大小 (前處理)
-    input_tensor = preprocess(image, image_width, image_height, model_width, model_height)
+    input_tensor = preprocess(image, model_width, model_height)
 
     # 將 reshape 過後的輸入檔輸入至模型當中進行推論(辨識)
     outputs = Onnx_model.run(None, {Onnx_model.get_inputs()[0].name: input_tensor})
