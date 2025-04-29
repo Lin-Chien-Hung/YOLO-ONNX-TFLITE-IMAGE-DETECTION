@@ -15,6 +15,7 @@
 1. 先將模型輸入至各個資料夾當中轉換型態的程式，轉換至對應的資料格式。
 2. 在使用 Yolo v10 時 nms 請設置為 Fales # (300, 6)
 3. 在使用 Yolo v11 時 nms 請設置為 True  # (8400,84) ==> (300,6)
+4. 6 = x1, y1, x2, y2, cof, class_id
 
 ## ⦿ 創建、撰寫流程、服務功能(Create and write processes and service functions)
 
