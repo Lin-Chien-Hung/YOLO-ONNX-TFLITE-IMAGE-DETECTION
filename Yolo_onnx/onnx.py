@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 
-# 影像前處理
+# 影像前處理 (原始影像, 原始影像(寬), 原始影像(高), 模型(寬), 模型(高))
 def preprocess(bgr_image, src_w, src_h, dst_w, dst_h):
     
     # BGR 轉 RGB
@@ -22,7 +22,7 @@ def preprocess(bgr_image, src_w, src_h, dst_w, dst_h):
 if __name__ == '__main__':
     
     # 使用 ort 加速 ONNX 模型，並載入
-    session = ort.InferenceSession("./model/yolov11n.onnx", providers=["CUDAExecutionProvider"])
+    Onnx_model = ort.InferenceSession("./model/yolov11n.onnx", providers=["CUDAExecutionProvider"])
 
     # 讀取訓練時，所提供的物件類別
     with open('./classification/coco.txt') as f:
@@ -35,13 +35,13 @@ if __name__ == '__main__':
     image_height, image_width, _ = image.shape
     
     # 讀取模型的維度[1, 3, 640, 640](影像辨識張數, 通道數, 高, 寬) | 高、寬，將根據模型訓練時，所提供的影像而定，在此為 640 * 640
-    _, _, model_height, model_width = session.get_inputs()[0].shape
+    _, _, model_height, model_width = Onnx_model.get_inputs()[0].shape
     
     # 將輸入 影像或影片 調整至與 模型 相同大小 (前處理)
     input_tensor = preprocess(image, image_width, image_height, model_width, model_height)
 
     # 將 reshape 過後的輸入檔輸入至模型當中進行推論(辨識)
-    outputs = session.run(None, {session.get_inputs()[0].name: input_tensor})
+    outputs = Onnx_model.run(None, {Onnx_model.get_inputs()[0].name: input_tensor})
     output = np.squeeze(outputs[0])
 
     # 抽取 推論 過後的輸出
@@ -53,6 +53,7 @@ if __name__ == '__main__':
             continue
         # 辨識出的物件名稱
         label = class_list[int(class_id)]
+        # 根據 640 × 640 的影像辨識結果，將其辨識位置還原至原始圖片上
         x1 = int(x1 * (image_width / model_width))
         y1 = int(y1 * (image_height / model_height))
         x2 = int(x2 * (image_width / model_width))
