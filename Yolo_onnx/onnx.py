@@ -3,10 +3,10 @@ import numpy as np
 import onnxruntime as ort
 
 # 影像前處理 (原始影像, 模型(寬), 模型(高))
-def preprocess(bgr_image, dst_w, dst_h):
+def preprocess(org_image, dst_w, dst_h):
     
     # BGR 轉 RGB
-    image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
+    image = cv2.cvtColor(org_image, cv2.COLOR_BGR2RGB)
 
     # 調整輸入影像 至 符合模型大小
     image = cv2.resize(image, (dst_w, dst_h))
