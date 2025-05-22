@@ -7,6 +7,8 @@ import cvzone
 # 影像前處理 (原始影像, 模型(寬), 模型(高))
 def preprocess(org_image, dst_w, dst_h):
 
+    image = cv2.cvtColor(org_image, cv2.COLOR_BGR2RGB)
+    
     # 調整輸入影像 至 符合模型大小
     image = cv2.resize(org_image, (dst_w, dst_h))
     
